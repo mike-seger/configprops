@@ -1,5 +1,7 @@
+default-prop: ABC
+
 info:
-  attr1: Custom Attribute Value
+  attr1: Custom Attribute Value ${default-prop}
 
 
 spring:

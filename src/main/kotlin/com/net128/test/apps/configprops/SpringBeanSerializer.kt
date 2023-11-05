@@ -7,21 +7,19 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import kotlin.reflect.full.memberProperties
 
 class SpringBeanSerializer(private val defaultSerializer: JsonSerializer<Any>) : StdSerializer<Any>(Any::class.java) {
-    private val springProxySuffix = "EnhancerBySpringCGLIB"
+    //private val springProxySuffix = "EnhancerBySpringCGLIB" //Spring 2.7.x
     override fun serialize(value: Any?, gen: JsonGenerator?, provider: SerializerProvider?) {
-        if (value != null && isSpringBean(value)) {
+        if (value != null && StringHelper.isSpringBean(value)) {
             serializeSpringBean(value, gen)
         } else {
             defaultSerializer.serialize(value, gen, provider)
         }
     }
 
-    private fun isSpringBean(bean: Any): Boolean {
-        return bean.javaClass.name.matches((".*[\$][\$]$springProxySuffix.*").toRegex())
-    }
+
 
     private fun serializeSpringBean(bean: Any, gen: JsonGenerator?) {
-        val beanClass = Class.forName(bean.javaClass.name.replace(("[\$][\$]$springProxySuffix.*").toRegex(), ""))
+        val beanClass = StringHelper.springBeanClass(bean)
         val properties = beanClass.kotlin.memberProperties
 
         gen?.writeStartObject()
@@ -33,3 +31,4 @@ class SpringBeanSerializer(private val defaultSerializer: JsonSerializer<Any>) :
         gen?.writeEndObject()
     }
 }
+

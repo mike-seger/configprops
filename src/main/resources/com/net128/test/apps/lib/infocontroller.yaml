@@ -1,0 +1,3 @@
+info:
+  attr1: Default Attribute Value ${default-prop}
+  attr2: Default Attribute Value ${default-prop}
