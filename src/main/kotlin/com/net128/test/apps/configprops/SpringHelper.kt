@@ -1,6 +1,6 @@
 package com.net128.test.apps.configprops
 
-object StringHelper {
+object SpringHelper {
     fun isSpringBean(bean: Any): Boolean {
         return bean.javaClass.name.matches((".*[\$][\$].*$springProxySuffix.*").toRegex())
     }

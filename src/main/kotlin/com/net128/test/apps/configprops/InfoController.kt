@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api")
 class InfoController(val infoConfiguration: InfoConfiguration) {
     @GetMapping("info")
-    //@ResponseBody
     fun info(): InfoConfiguration {
         return infoConfiguration
     }

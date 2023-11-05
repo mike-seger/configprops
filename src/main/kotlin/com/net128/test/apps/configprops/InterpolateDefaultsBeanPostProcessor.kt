@@ -1,12 +1,11 @@
 package com.net128.test.apps.configprops
 
-import com.net128.test.apps.configprops.StringHelper.isSpringBeanProperty
-import com.net128.test.apps.configprops.StringHelper.springBeanClass
+import com.net128.test.apps.configprops.SpringHelper.isSpringBeanProperty
+import com.net128.test.apps.configprops.SpringHelper.springBeanClass
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.core.annotation.AnnotationUtils
-import org.springframework.stereotype.Component
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
