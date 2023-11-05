@@ -1,0 +1,6 @@
+# configprops
+
+```
+curl -H "content-type: application/json" localhost:8080/api/info
+```
+
