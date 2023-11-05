@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
+import com.net128.test.apps.configprops.SpringHelper.isSpringProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 class SpringBeanSerializer(private val defaultSerializer: JsonSerializer<Any>) : StdSerializer<Any>(Any::class.java) {
     override fun serialize(value: Any?, gen: JsonGenerator?, provider: SerializerProvider?) {
@@ -26,7 +28,10 @@ class SpringBeanSerializer(private val defaultSerializer: JsonSerializer<Any>) :
         gen?.writeStartObject()
         properties.forEach {
             with(it) {
-                gen?.writeObjectField(name, getter.call(bean))
+                if(!isSpringProperty(name)) {
+                    isAccessible = true
+                    gen?.writeObjectField(name, getter.call(bean))
+                }
             }
         }
         gen?.writeEndObject()
@@ -42,6 +47,8 @@ object SpringHelper {
         return Class.forName(bean.javaClass.name.replace(("[\$][\$]$springProxySuffix.*").toRegex(), ""))
     }
 
+    fun isSpringProperty(name: String) = name.startsWith("CGLIB\$") || name == "\$\$beanFactory"
+
     private const val springProxySuffix = "SpringCGLIB"
 }
 
@@ -50,7 +57,6 @@ class JacksonConfiguration {
     @Bean
     fun objectMapper(builder: Jackson2ObjectMapperBuilder): ObjectMapper {
         val objectMapper = builder.build<ObjectMapper>()
-
         val springBeanModule = SimpleModule()
         springBeanModule.setSerializerModifier(object : BeanSerializerModifier() {
             override fun modifySerializer(config: SerializationConfig, beanDesc: BeanDescription, serializer: JsonSerializer<*>): JsonSerializer<*> {
@@ -60,7 +66,6 @@ class JacksonConfiguration {
         })
 
         objectMapper.registerModule(springBeanModule)
-
         return objectMapper
     }
 }
