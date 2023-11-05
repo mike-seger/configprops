@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api")
-class InfoController(val info: Info) {
+class InfoController(val infoConfiguration: InfoConfiguration) {
     @GetMapping("info")
     @ResponseBody
     fun info(): Info {
-        return info
+        return Converter.convert<InfoConfiguration, Info>(infoConfiguration)
     }
 }
