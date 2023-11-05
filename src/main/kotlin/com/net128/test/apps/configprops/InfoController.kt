@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class InfoController(val infoConfiguration: InfoConfiguration) {
     @GetMapping("info")
     @ResponseBody
-    fun info(): Info {
-        return Converter.convert<InfoConfiguration, Info>(infoConfiguration)
+    fun info(): InfoConfiguration {
+        return infoConfiguration
     }
 }
