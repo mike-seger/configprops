@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Configuration
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Configuration
 @ConfigurationProperties("info")
-class InfoConfiguration (
-        var additionalAttr: String? = null
-)  : Info()
+class InfoConfiguration : Info()
 
 open class Info (
         var attr1: String = "attr1 data"
