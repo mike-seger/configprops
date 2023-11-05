@@ -1,2 +1,8 @@
 info:
   attr1: Custom Attribute Value
+
+
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false

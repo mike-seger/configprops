@@ -6,8 +6,6 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-@EnableConfigurationProperties(Info::class)
-@ComponentScan("com.net128.test.apps.configprops")
 class ConfigpropsApplication
 
 fun main(args: Array<String>) {
