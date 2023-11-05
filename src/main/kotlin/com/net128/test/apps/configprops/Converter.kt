@@ -1,20 +1,13 @@
 package com.net128.test.apps.configprops
 
 import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.full.primaryConstructor
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.convertValue
 
 object Converter {
-    inline fun <reified T : Any> convertToCore(source: T): Any {
-        return ObjectMapper().convertValue(source, T::class.java.superclass)
-        /*val coreType = T::class.primaryConstructor!!.parameters.first().type.java
-        val coreInstance = coreType.newInstance()
-
-        val sourceProperties = T::class.declaredMemberProperties
-        val coreProperties = coreType.declaredFields
+    inline fun <reified T : Any, reified R : Any> convert(source: T): R {
+        val coreInstance = R::class.createInstance()
+        val sourceProperties = T::class.memberProperties
+        val coreProperties = R::class.java.declaredFields
 
         for (coreProperty in coreProperties) {
             val propertyName = coreProperty.name
@@ -27,6 +20,6 @@ object Converter {
             }
         }
 
-        return coreInstance*/
+        return coreInstance
     }
 }
