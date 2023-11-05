@@ -2,9 +2,12 @@ default-prop: ABC
 
 info:
   attr1: Custom Attribute 1 Value ${default-prop}
-#  attr2: Custom Attribute 2 Value ${default-prop}
 
 spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+management.endpoints.web.exposure.include: '*'
+endpoints.env.keys-to-sanitize:
+management.endpoint.env.show-values: always
